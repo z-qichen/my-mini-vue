@@ -1,5 +1,20 @@
+import { toRaw } from 'vue'
 import type { Status } from '@/types'
 import type { Command } from './history'
+
+// 自定义深克隆函数，处理 Vue 组件等不可克隆的数据
+function deepCloneStatus(status: Status): Status {
+  const raw = toRaw(status)
+  return {
+    ...raw,
+    status: JSON.parse(JSON.stringify(raw.status))
+  }
+}
+
+// 克隆 Status 数组
+function deepCloneStatusArray(coms: Status[]): Status[] {
+  return coms.map(deepCloneStatus)
+}
 
 // Add Command - 添加组件
 export function createAddCommand(
@@ -32,7 +47,7 @@ export function createRemoveCommand(
   removeFn: (index: number) => void,
   addFn: (coms: Status[], newCom: Status) => void,
 ): Command {
-  const removedCom = structuredClone(coms[index])
+  const removedCom = deepCloneStatus(coms[index])
   return {
     type: 'remove',
     execute: () => {
@@ -100,7 +115,7 @@ export function createResetCommand(
     },
     undo: () => {
       coms.length = 0
-      coms.push(...structuredClone(oldComs))
+      coms.push(...deepCloneStatusArray(oldComs))
     },
   }
 }

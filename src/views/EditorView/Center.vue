@@ -1,7 +1,7 @@
 <template>
   <div ref="centerContainer" class="center-container">
     <draggable
-      v-model="store.coms"
+      :list="comsList"
       item-key="index"
       @start="dragstart"
       @end="dragend"
@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, nextTick, computed } from 'vue'
+import { ref, nextTick, computed, watch } from 'vue'
 import type { ComponentPublicInstance } from 'vue'
 import { Close } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
@@ -44,6 +44,7 @@ import draggable from 'vuedraggable'
 import EventBus from '@/utils/eventBus'
 // 仓库
 import { useEditorStore } from '@/stores/useEditor'
+import type { Status } from '@/types'
 const store = useEditorStore()
 
 // 组合式函数
@@ -53,7 +54,14 @@ const serialNum = computed(() => useSurveyNo(store.coms).value)
 
 const centerContainer = ref<HTMLElement | null>(null) // 明确声明类型
 const componentRefs = ref<(Element | ComponentPublicInstance | null)[]>([])
-let dragOldIndex = -1
+
+// 本地列表副本，用于隔离 vuedraggable 的直接修改
+const comsList = ref<Status[]>([])
+
+watch(() => store.coms, (newVal) => {
+  comsList.value = [...newVal]
+}, { deep: true, immediate: true })
+
 const clickHandle = function (index: number) {
   if (store.currentComponentIndex === index) {
     store.setCurrentComponentIndex(-1)
@@ -84,13 +92,24 @@ const scrollToCenter = function (index: number) {
 EventBus.on('scrollToBottom', scrollToBottom)
 EventBus.on('scrollToCenter', scrollToCenter)
 
+let isDialogOpen = false
+
 function removeCom(index: number) {
+  if (isDialogOpen) {
+    console.log('对话框已经在打开状态')
+    return
+  }
+  isDialogOpen = true
+
+  console.log('removeCom', index)
+
   ElMessageBox.confirm('是否确定删除此模块？', '提示', {
     confirmButtonText: '确定',
     cancelButtonText: '取消',
     type: 'warning',
   })
     .then(() => {
+      console.log('删除', index);
       store.removeCom(index)
       store.setCurrentComponentIndex(-1)
       ElMessage({
@@ -98,18 +117,26 @@ function removeCom(index: number) {
         message: '已删除',
       })
     })
-    .catch(() => {
-      console.log('取消删除')
+    .catch((err) => {
+      console.log('取消删除', err)  // 打印错误对象，看看是什么错误
+    })
+    .finally(() => {
+      isDialogOpen = false
     })
 }
+
+let dragOldIndex = -1
 // 拖动开始
 function dragstart(event: { oldIndex: number }) {
+  console.log('start');
   dragOldIndex = event.oldIndex
   // 拖动开始的时候，将当前选中的组件取消选中
   store.setCurrentComponentIndex(-1)
 }
 // 拖动结束
 function dragend(event: { newIndex: number }) {
+  console.log('end');
+
   if (dragOldIndex !== -1 && dragOldIndex !== event.newIndex) {
     store.moveCom(dragOldIndex, event.newIndex)
   }
