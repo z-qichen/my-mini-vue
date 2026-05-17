@@ -38,10 +38,12 @@
         </el-table-column>
       </el-table>
     </div>
+    <Card />
   </div>
 </template>
 
 <script setup lang="ts">
+import Card from '@/components/common/Card.vue'
 import { ref } from 'vue'
 import { Plus, Compass } from '@element-plus/icons-vue'
 // 路由
