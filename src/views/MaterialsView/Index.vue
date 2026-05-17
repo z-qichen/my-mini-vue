@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import Header from '@/components/Common/Header.vue'
+import Header from '@/components/common/Header.vue'
 // 引入对应图标
 import { CircleCheck, Files, EditPen, ChatLineSquare, User, Message } from '@element-plus/icons-vue'
 </script>

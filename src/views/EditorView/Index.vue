@@ -18,7 +18,7 @@ import { computed, provide, onMounted, onUnmounted } from 'vue'
 import { ElMessage } from 'element-plus'
 // db
 import { getSurveyById } from '@/db/operation'
-import Header from '@/components/Common/Header.vue'
+import Header from '@/components/common/Header.vue'
 import LeftSide from './LeftSide/Index.vue'
 import Center from './Center.vue'
 import RightSide from './RightSide.vue'
