@@ -10,6 +10,7 @@
             <el-button
               :disabled="!store.canUndo"
               size="small"
+              :class="{ 'shadow-heavy': store.canUndo }"
               @click="undo"
               title="撤销 (Ctrl+Z)"
             >
@@ -18,18 +19,19 @@
             <el-button
               :disabled="!store.canRedo"
               size="small"
+              :class="{ 'shadow-heavy': store.canRedo }"
               @click="redo"
               title="重做 (Ctrl+Y)"
             >
               <el-icon><Arrow-Right /></el-icon>
             </el-button>
           </div>
-          <div v-if="id">
+          <div v-if="id" style="margin-left: 100px;">
             <el-button type="warning" size="small" @click="update(store, Number(id))"
               >更新问卷</el-button
             >
           </div>
-          <div v-else>
+          <div v-else style="margin-left: 100px;">
             <el-button type="danger" size="small" @click="reset">重置问卷</el-button>
             <el-button type="success" size="small" @click="saveSurvey">保存问卷</el-button>
           </div>
@@ -159,5 +161,9 @@ function preview() {
     width: 80px;
     height: 100%;
   }
+}
+
+.shadow-heavy {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 </style>

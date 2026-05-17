@@ -20,4 +20,7 @@ export default defineConfig({
       '/uploads': 'http://localhost:3001',
     },
   },
+  build: {
+    chunkSizeWarningLimit: 1000,
+  },
 });
