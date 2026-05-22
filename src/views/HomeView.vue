@@ -2,8 +2,11 @@
   <div class="home-page">
     <header class="home-header">
       <div class="brand">
-        <div class="brand-mark"></div>
+        <img class="brand-logo" src="../assets/images/logo.png" alt="Logo" />
         <span class="brand-name">启承问卷系统</span>
+      </div>
+      <div class="avator">
+        <el-avatar size="middle" :src="avatarUrl" />
       </div>
     </header>
 
@@ -89,6 +92,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Plus, Compass, Document, View, EditPen, Delete } from '@element-plus/icons-vue'
+import avatarUrl from '@/assets/images/avator.png'
 // 路由
 import { useRouter } from 'vue-router'
 const router = useRouter()
@@ -167,28 +171,15 @@ const formatSurveyDate = (date: number) => {
   gap: 14px;
 }
 
-.brand-mark {
+.brand-logo {
   width: 42px;
   height: 42px;
-  position: relative;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #1ad176 0%, #0a75ff 100%);
-}
-
-.brand-mark::before {
-  content: '';
-  width: 22px;
-  height: 12px;
-  position: absolute;
-  left: 9px;
-  top: 12px;
-  border-left: 5px solid #fff;
-  border-bottom: 5px solid #fff;
-  transform: rotate(-45deg);
+  display: block;
+  object-fit: contain;
 }
 
 .brand-name {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -540,7 +531,7 @@ const formatSurveyDate = (date: number) => {
     padding: 0 16px;
   }
 
-  .brand-mark {
+  .brand-logo {
     width: 34px;
     height: 34px;
   }
