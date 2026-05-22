@@ -1,70 +1,122 @@
 // 类型
 import type { ComponentMap } from '@/types'
-// 引入业务组件
-import SingleSelect from '@/components/SurveyComs/Materials/SelectComs/SingleSelect.vue'
-import MultiSelect from '@/components/SurveyComs/Materials/SelectComs/MultiSelect.vue'
-import OptionsSelect from '@/components/SurveyComs/Materials/SelectComs/OptionSelect.vue'
-import SinglePicSelect from '@/components/SurveyComs/Materials/SelectComs/SinglePicSelect.vue'
-import MultiPicSelect from '@/components/SurveyComs/Materials/SelectComs/MultiPicSelect.vue'
-import TextNote from '@/components/SurveyComs/Materials/NoteComs/TextNote.vue'
-import TextInput from '@/components/SurveyComs/Materials/InputComs/TextInput.vue'
-import DateTime from '@/components/SurveyComs/Materials/AdvancedComs/DateTime.vue'
-import RateScore from '@/components/SurveyComs/Materials/AdvancedComs/RateScore.vue'
-// 引入编辑组件
-import TitleEditor from '@/components/SurveyComs/EditItems/TitleEditor.vue'
-import DescEditor from '@/components/SurveyComs/EditItems/DescEditor.vue'
-import PositionEditor from '@/components/SurveyComs/EditItems/PositionEditor.vue'
-import SizeEditor from '@/components/SurveyComs/EditItems/SizeEditor.vue'
-import WeightEditor from '@/components/SurveyComs/EditItems/WeightEditor.vue'
-import ItalicEditor from '@/components/SurveyComs/EditItems/ItalicEditor.vue'
-import TextInputTypeEditor from '@/components/SurveyComs/EditItems/TextInputTypeEditor.vue'
-import TextTypeEditor from '@/components/SurveyComs/EditItems/TextTypeEditor.vue'
-import OptionsEditor from '@/components/SurveyComs/EditItems/OptionsEditor.vue'
-import PicOptionsEditor from '@/components/SurveyComs/EditItems/PicOptionsEditor.vue'
-import DateTimeTypeEditor from '@/components/SurveyComs/EditItems/DateTimeTypeEditor.vue'
-import rateTextEditor from '@/components/SurveyComs/EditItems/rateTextEditor.vue'
+import { defineAsyncComponent, markRaw } from 'vue'
 
-import { markRaw } from 'vue'
+const SingleSelect = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/SelectComs/SingleSelect.vue'),
+  ),
+)
+const MultiSelect = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/SelectComs/MultiSelect.vue'),
+  ),
+)
+const OptionsSelect = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/SelectComs/OptionSelect.vue'),
+  ),
+)
+const SinglePicSelect = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/SelectComs/SinglePicSelect.vue'),
+  ),
+)
+const MultiPicSelect = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/SelectComs/MultiPicSelect.vue'),
+  ),
+)
+const TextNote = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/Materials/NoteComs/TextNote.vue')),
+)
+const TextInput = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/Materials/InputComs/TextInput.vue')),
+)
+const DateTime = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/Materials/AdvancedComs/DateTime.vue')),
+)
+const RateScore = markRaw(
+  defineAsyncComponent(
+    () => import('@/components/SurveyComs/Materials/AdvancedComs/RateScore.vue'),
+  ),
+)
+const TitleEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/TitleEditor.vue')),
+)
+const DescEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/DescEditor.vue')),
+)
+const PositionEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/PositionEditor.vue')),
+)
+const SizeEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/SizeEditor.vue')),
+)
+const WeightEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/WeightEditor.vue')),
+)
+const ItalicEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/ItalicEditor.vue')),
+)
+const TextInputTypeEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/TextInputTypeEditor.vue')),
+)
+const TextTypeEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/TextTypeEditor.vue')),
+)
+const OptionsEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/OptionsEditor.vue')),
+)
+const PicOptionsEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/PicOptionsEditor.vue')),
+)
+const DateTimeTypeEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/DateTimeTypeEditor.vue')),
+)
+const rateTextEditor = markRaw(
+  defineAsyncComponent(() => import('@/components/SurveyComs/EditItems/rateTextEditor.vue')),
+)
 
 export const componentMap: ComponentMap = {
   // 业务组件
-  'single-select': markRaw(SingleSelect),
-  'multi-select': markRaw(MultiSelect),
-  'option-select': markRaw(OptionsSelect),
-  'single-pic-select': markRaw(SinglePicSelect),
-  'multi-pic-select': markRaw(MultiPicSelect),
-  'text-note': markRaw(TextNote),
-  'text-input': markRaw(TextInput),
-  'personal-info-name': markRaw(TextInput),
-  'personal-info-id': markRaw(TextInput),
-  'personal-info-tel': markRaw(TextInput),
-  'personal-info-wechat': markRaw(TextInput),
-  'personal-info-qq': markRaw(TextInput),
-  'personal-info-email': markRaw(TextInput),
-  'personal-info-address': markRaw(TextInput),
-  'personal-info-gender': markRaw(SingleSelect),
-  'personal-info-age': markRaw(SingleSelect),
-  'personal-info-education': markRaw(SingleSelect),
-  'personal-info-career': markRaw(SingleSelect),
-  'date-time': markRaw(DateTime),
-  'personal-info-birth': markRaw(DateTime),
-  'personal-info-collage': markRaw(TextInput),
-  'personal-info-major': markRaw(TextInput),
-  'personal-info-industry': markRaw(TextInput),
-  'personal-info-company': markRaw(TextInput),
-  'personal-info-position': markRaw(TextInput),
-  'rate-score': markRaw(RateScore),
+  'single-select': SingleSelect,
+  'multi-select': MultiSelect,
+  'option-select': OptionsSelect,
+  'single-pic-select': SinglePicSelect,
+  'multi-pic-select': MultiPicSelect,
+  'text-note': TextNote,
+  'text-input': TextInput,
+  'personal-info-name': TextInput,
+  'personal-info-id': TextInput,
+  'personal-info-tel': TextInput,
+  'personal-info-wechat': TextInput,
+  'personal-info-qq': TextInput,
+  'personal-info-email': TextInput,
+  'personal-info-address': TextInput,
+  'personal-info-gender': SingleSelect,
+  'personal-info-age': SingleSelect,
+  'personal-info-education': SingleSelect,
+  'personal-info-career': SingleSelect,
+  'date-time': DateTime,
+  'personal-info-birth': DateTime,
+  'personal-info-collage': TextInput,
+  'personal-info-major': TextInput,
+  'personal-info-industry': TextInput,
+  'personal-info-company': TextInput,
+  'personal-info-position': TextInput,
+  'rate-score': RateScore,
   // 编辑组件
-  'title-editor': markRaw(TitleEditor),
-  'desc-editor': markRaw(DescEditor),
-  'position-editor': markRaw(PositionEditor),
-  'options-editor': markRaw(OptionsEditor),
-  'size-editor': markRaw(SizeEditor),
-  'weight-editor': markRaw(WeightEditor),
-  'italic-editor': markRaw(ItalicEditor),
-  'text-input-type-editor': markRaw(TextInputTypeEditor),
-  'text-type-editor': markRaw(TextTypeEditor),
-  'pic-options-editor': markRaw(PicOptionsEditor),
-  'date-time-type-editor': markRaw(DateTimeTypeEditor),
-  'rate-text-editor': markRaw(rateTextEditor),
+  'title-editor': TitleEditor,
+  'desc-editor': DescEditor,
+  'position-editor': PositionEditor,
+  'options-editor': OptionsEditor,
+  'size-editor': SizeEditor,
+  'weight-editor': WeightEditor,
+  'italic-editor': ItalicEditor,
+  'text-input-type-editor': TextInputTypeEditor,
+  'text-type-editor': TextTypeEditor,
+  'pic-options-editor': PicOptionsEditor,
+  'date-time-type-editor': DateTimeTypeEditor,
+  'rate-text-editor': rateTextEditor,
 }

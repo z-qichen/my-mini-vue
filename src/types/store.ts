@@ -64,11 +64,17 @@ export interface EditorStore extends Actions {
   currentComponentIndex: number
   surveyCount: number
   coms: Status[]
+  canUndo: boolean
+  canRedo: boolean
   setCurrentComponentIndex: (index: number) => void
   addCom: (coms: Status[], newCom: Status) => void
   setStore: (storeStatus: SurveyDBData) => void
   initStore: () => void
   removeCom: (index: number) => void
+  updateStatus: (comIndex: number, configKey: string, newValue: unknown) => void
+  moveCom: (oldIndex: number, newIndex: number) => void
+  undo: () => void
+  redo: () => void
   resetComs: () => void
 }
 
