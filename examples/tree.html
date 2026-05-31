@@ -1,31 +1,120 @@
-<script src="../dist/my-mini-vue.umd.js"></script>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tree - MiniVue vs Vue 3</title>
+  <!-- MiniVue -->
+  <script src="../dist/my-mini-vue.umd.js"></script>
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body {
+      font-family: Menlo, Consolas, monospace;
+      color: #444;
+    }
+    .demo-wrap {
+      display: flex;
+      gap: 40px;
+    }
+    .demo-col {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .demo-col h3 {
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+    .item {
+      cursor: pointer;
+    }
+    .bold {
+      font-weight: bold;
+    }
+    ul {
+      padding-left: 1em;
+      line-height: 1.5em;
+      list-style-type: dot;
+    }
+    hr.sep {
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
 
-<!-- item template -->
-<script type="text/x-template" id="item-template">
-    <li>
-    <div
-      :class="isFolder.value ? 'bold' : ''"
-      @click="toggle"
-      @dblclick="changeType">
-      {{model.name}}
-      <span v-if="isFolder.value">[{{open.value ? '-' : '+'}}]</span>
-    </div>
-    <ul v-if="isFolder.value" :style="{display: open.value ? 'block' : 'none'}">
-      <tree-item
-        class="item"
-        v-for="model in model.children"
-        :model="model">
-      </tree-item>
-      <li class="add" @click="addChild">+</li>
+<h2>Tree 组件 — MiniVue 实现</h2>
+<div class="demo-wrap">
+  <div class="demo-col">
+    <h3>MiniVue</h3>
+
+    <!-- MiniVue item template -->
+    <script type="text/x-template" id="item-template-mv">
+      <li>
+        <div
+          :class="isFolder.value ? 'bold' : ''"
+          @click="toggle"
+          @dblclick="changeType">
+          {{model.name}}
+          <span v-if="isFolder.value">[{{open.value ? '-' : '+'}}]</span>
+        </div>
+        <ul v-if="isFolder.value" :style="{display: open.value ? 'block' : 'none'}">
+          <tree-item
+            class="item"
+            v-for="model in model.children"
+            :model="model">
+          </tree-item>
+          <li class="add" @click="addChild">+</li>
+        </ul>
+      </li>
+    </script>
+
+    <ul id="demo-mv">
+      <tree-item class="item" :model="treeData"></tree-item>
     </ul>
-  </li>
-</script>
-<!-- item script -->
+  </div>
+
+  <div class="demo-col">
+    <h3>Vue 3</h3>
+
+    <!-- Vue 3 item template（用 node 代替 model，避免与 prop 冲突） -->
+    <script type="text/x-template" id="item-template-v3">
+      <li>
+        <div
+          :class="isFolder ? 'bold' : ''"
+          @click="toggle"
+          @dblclick="changeType">
+          {{node.name}}
+          <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+        </div>
+        <ul v-if="isFolder" :style="{display: open ? 'block' : 'none'}">
+          <tree-item
+            class="item"
+            v-for="child in node.children"
+            :model="child">
+          </tree-item>
+          <li class="add" @click="addChild">+</li>
+        </ul>
+      </li>
+    </script>
+
+    <ul id="demo-v3">
+      <tree-item class="item" :model="treeData"></tree-item>
+    </ul>
+  </div>
+</div>
+
+<p style="color:#888;font-size:13px;margin-top:16px">提示：双击一个项目可以将其转换为文件夹。</p>
+
+<!-- ==================== MiniVue 脚本 ==================== -->
 <script>
+;(function() {
   const { reactive, computed, ref } = MiniVue;
 
   const TreeItem = {
-    template: '#item-template',
+    template: '#item-template-mv',
     props: ['model'],
     setup(props) {
       const open = ref(false);
@@ -60,92 +149,105 @@
       };
     },
   };
-</script>
 
-<p>(You can double click on an item to turn it into a folder.)</p>
-
-<!-- the app root element -->
-<ul id="demo">
-  <tree-item class="item" :model="treeData"></tree-item>
-</ul>
-
-<script>
   const treeData = {
     name: 'My Tree',
     children: [
-      {
-        name: 'hello',
-      },
-      {
-        name: 'wat',
-      },
+      { name: 'hello' },
+      { name: 'wat' },
       {
         name: 'child folder',
         children: [
-          {
-            name: 'child folder',
-            children: [
-              {
-                name: 'hello',
-              },
-              {
-                name: 'wat',
-              },
-            ],
-          },
-          {
-            name: 'hello',
-          },
-          {
-            name: 'wat',
-          },
-          {
-            name: 'child folder',
-            children: [
-              {
-                name: 'hello',
-              },
-              {
-                name: 'wat',
-              },
-            ],
-          },
+          { name: 'child folder', children: [{ name: 'hello' }, { name: 'wat' }] },
+          { name: 'hello' },
+          { name: 'wat' },
+          { name: 'child folder', children: [{ name: 'hello' }, { name: 'wat' }] },
         ],
       },
     ],
   };
 
   MiniVue.createApp({
-    components: {
-      TreeItem,
-    },
+    components: { TreeItem },
     setup() {
-      return {
-        treeData,
-      };
+      return { treeData };
     },
-  }).mount('#demo');
+  }).mount('#demo-mv');
+})();
 </script>
 
-<style>
-  body {
-    font-family: Menlo, Consolas, monospace;
-    color: #444;
-  }
+<!-- ==================== Vue 3 脚本 ==================== -->
+<script>
+;(function() {
+  const { createApp, reactive, computed, ref } = Vue;
 
-  .item {
-    cursor: pointer;
-  }
+  const TreeItem = {
+    name: 'TreeItem',
+    template: '#item-template-v3',
+    props: ['model'],
+    setup(props) {
+      // Vue 3 props 只读，深拷贝一份本地响应式数据供修改
+      const node = reactive(JSON.parse(JSON.stringify(props.model)));
 
-  .bold {
-    font-weight: bold;
-  }
+      const open = ref(false);
+      const isFolder = computed(() => {
+        return node.children && node.children.length;
+      });
 
-  ul {
-    padding-left: 1em;
-    line-height: 1.5em;
-    list-style-type: dot;
-  }
-</style>
+      function toggle() {
+        open.value = !open.value;
+      }
 
+      function changeType() {
+        if (!isFolder.value) {
+          node.children = [];
+          addChild();
+          open.value = true;
+        }
+      }
 
+      function addChild() {
+        node.children.push({
+          name: 'new stuff',
+        });
+      }
+
+      return {
+        node,
+        open,
+        isFolder,
+        toggle,
+        changeType,
+        addChild,
+      };
+    },
+  };
+
+  const treeData = {
+    name: 'My Tree',
+    children: [
+      { name: 'hello' },
+      { name: 'wat' },
+      {
+        name: 'child folder',
+        children: [
+          { name: 'child folder', children: [{ name: 'hello' }, { name: 'wat' }] },
+          { name: 'hello' },
+          { name: 'wat' },
+          { name: 'child folder', children: [{ name: 'hello' }, { name: 'wat' }] },
+        ],
+      },
+    ],
+  };
+
+  createApp({
+    components: { TreeItem },
+    setup() {
+      return { treeData };
+    },
+  }).mount('#demo-v3');
+})();
+</script>
+
+</body>
+</html>

@@ -1,83 +1,147 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="../dist/my-mini-vue.umd.js"></script>
-  </head>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vModel - MiniVue vs Vue 3</title>
+  <!-- MiniVue -->
+  <script src="../dist/my-mini-vue.umd.js"></script>
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body {
+      font-family: Menlo, Consolas, monospace;
+      color: #444;
+    }
+    .demo-wrap {
+      display: flex;
+      gap: 40px;
+    }
+    .demo-col {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .demo-col h3 {
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+    hr.sep {
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
 
-  <body>
-    <div id="app">
+<h2>vModel — MiniVue 实现</h2>
+
+<div class="demo-wrap">
+  <!-- ========== MiniVue ========== -->
+  <div class="demo-col">
+    <h3>MiniVue</h3>
+
+    <div id="app-mv">
       <div>{{model.text}}</div>
       <input type="text" v-model="model.text" />
-      <hr />
+      <hr class="sep" />
       <div>{{model.radio}}</div>
       <label>
-        <input
-          type="radio"
-          name="radio"
-          value="first"
-          v-model="model.radio"
-        />first
+        <input type="radio" name="radio-mv" value="first" v-model="model.radio" />first
       </label>
       <label>
-        <input
-          type="radio"
-          name="radio"
-          value="second"
-          v-model="model.radio"
-        />second
+        <input type="radio" name="radio-mv" value="second" v-model="model.radio" />second
       </label>
-      <hr />
+      <hr class="sep" />
       <div>{{model.checkbox.toString()}}</div>
       <label>
-        <input
-          type="checkbox"
-          name="checkbox"
-          value="one"
-          v-model="model.checkbox"
-        />one
+        <input type="checkbox" name="checkbox-mv" value="one" v-model="model.checkbox" />one
       </label>
       <label>
-        <input
-          type="checkbox"
-          name="checkbox"
-          value="two"
-          v-model="model.checkbox"
-        />two
+        <input type="checkbox" name="checkbox-mv" value="two" v-model="model.checkbox" />two
       </label>
       <label>
-        <input
-          type="checkbox"
-          name="checkbox"
-          value="three"
-          v-model="model.checkbox"
-        />three
+        <input type="checkbox" name="checkbox-mv" value="three" v-model="model.checkbox" />three
       </label>
-      <hr />
+      <hr class="sep" />
       <div>{{model.singleCheckbox.toString()}}</div>
       <label>
         <input type="checkbox" v-model="model.singleCheckbox" />singleCheckbox
       </label>
-      <hr />
     </div>
-    <script>
-      const { createApp, ref, reactive } = MiniVue;
-      const model = reactive({
-        text: 'text',
-        radio: 'second',
-        checkbox: ['one', 'three'],
-        singleCheckbox: true,
-      });
-      createApp({
-        setup() {
-          return {
-            model,
-          };
-        },
-      }).mount('#app');
-    </script>
-  </body>
+  </div>
+
+  <!-- ========== Vue 3 ========== -->
+  <div class="demo-col">
+    <h3>Vue 3</h3>
+
+    <div id="app-v3">
+      <div>{{model.text}}</div>
+      <input type="text" v-model="model.text" />
+      <hr class="sep" />
+      <div>{{model.radio}}</div>
+      <label>
+        <input type="radio" name="radio-v3" value="first" v-model="model.radio" />first
+      </label>
+      <label>
+        <input type="radio" name="radio-v3" value="second" v-model="model.radio" />second
+      </label>
+      <hr class="sep" />
+      <div>{{model.checkbox.toString()}}</div>
+      <label>
+        <input type="checkbox" name="checkbox-v3" value="one" v-model="model.checkbox" />one
+      </label>
+      <label>
+        <input type="checkbox" name="checkbox-v3" value="two" v-model="model.checkbox" />two
+      </label>
+      <label>
+        <input type="checkbox" name="checkbox-v3" value="three" v-model="model.checkbox" />three
+      </label>
+      <hr class="sep" />
+      <div>{{model.singleCheckbox.toString()}}</div>
+      <label>
+        <input type="checkbox" v-model="model.singleCheckbox" />singleCheckbox
+      </label>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MiniVue 脚本 ==================== -->
+<script>
+;(function() {
+  const { createApp, ref, reactive } = MiniVue;
+  const model = reactive({
+    text: 'text',
+    radio: 'second',
+    checkbox: ['one', 'three'],
+    singleCheckbox: true,
+  });
+  createApp({
+    setup() {
+      return { model };
+    },
+  }).mount('#app-mv');
+})();
+</script>
+
+<!-- ==================== Vue 3 脚本 ==================== -->
+<script>
+;(function() {
+  const { createApp, ref, reactive } = Vue;
+  const model = reactive({
+    text: 'text',
+    radio: 'second',
+    checkbox: ['one', 'three'],
+    singleCheckbox: true,
+  });
+  createApp({
+    setup() {
+      return { model };
+    },
+  }).mount('#app-v3');
+})();
+</script>
+
+</body>
 </html>
