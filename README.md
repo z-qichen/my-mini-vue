@@ -4,7 +4,7 @@
 
 ## Demo
 
-在线体验：[vercel 链接](https://my-mini-vue.vercel.app)
+在线体验：[vercel 链接](https://mini-vue.vercel.app)
 
 项目内置了两个与真实 Vue 3 并排对比的 demo：
 
